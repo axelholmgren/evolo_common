@@ -96,6 +96,7 @@ class SbgToOdom : public rclcpp::Node {
   double latitude_;
   double longitude_;
   double altitude_;
+  double gamma_ = 0.0;
 
   // Quat for odometry message.
   geometry_msgs::msg::Quaternion quat_msg;
@@ -141,8 +142,9 @@ class SbgToOdom : public rclcpp::Node {
     // Get lat/lon in UTM
     int zone;
     bool northp;
+    double k;
     GeographicLib::UTMUPS::Forward(msg->latitude, msg->longitude, zone, northp,
-                                    x_, y_);
+                                    x_, y_, gamma_, k);
     x_ -= x_utm_offset_;
     y_ -= y_utm_offset_;
 
@@ -177,7 +179,8 @@ class SbgToOdom : public rclcpp::Node {
     ned_to_sbg.normalize();
     Eigen::Matrix3d R_sbg = ned_to_sbg.toRotationMatrix();
 
-    Eigen::Matrix3d R_ros = R_NED_to_ENU * R_sbg * R_SBG_to_ROS;
+    Eigen::Matrix3d R_ros = Eigen::AngleAxisd(gamma_ * M_PI / 180.0, Eigen::Vector3d::UnitZ()).toRotationMatrix()
+                            * R_NED_to_ENU * R_sbg * R_SBG_to_ROS;
 
     Eigen::Quaterniond q_ros(R_ros);
     q_ros.normalize();
