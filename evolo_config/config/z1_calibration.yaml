@@ -1,0 +1,26 @@
+image_width: 1920
+image_height: 1080
+camera_name: z1_pro_camera
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [2193.77492,    0.     ,  921.99219,
+            0.     , 2034.80311,  545.59394,
+            0.     ,    0.     ,    1.     ]
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data: [-0.283852, 0.702539, -0.002176, -0.006779, 0.000000]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1., 0., 0.,
+         0., 1., 0.,
+         0., 0., 1.]
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [2139.8396 ,    0.     ,  913.49784,    0.     ,
+            0.     , 1998.01062,  544.21002,    0.     ,
+            0.     ,    0.     ,    1.     ,    0.     ]
